@@ -2,9 +2,9 @@ const config = {
 	env: process.env.NODE_ENV,
 	port: normalizePort(process.env.PORT || '3000'),
 	mongoDbUri: process.env.MONGODB_URI,
-	secret: process.env.JWT_SECRET,
-	expiresIn: '2d',
 	saltRounds: 10,
+	secret: process.env.JWT_SECRET,
+	expiresIn: process.env.JWT_EXPIRES_IN,
 };
 
 // Normalize a port value into a number, string, or false.

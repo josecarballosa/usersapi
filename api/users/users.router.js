@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const controller = require('./users.controller');
 const { jwt, auth } = require('../utils');
 

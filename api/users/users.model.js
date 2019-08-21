@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const { saltRounds } = require('../../config');
+// const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({
 		username: {
@@ -22,8 +23,8 @@ const UserSchema = new mongoose.Schema({
 		},
 		bio: String,
 		image: String,
-		hash: String, // TODO: make "hash" a required field
-		// salt: String, // bcrypt generates and prepends salt to hash
+		hash: String,
+		//salt: String, // bcrypt generates and prepends salt to hash
 	},
 	{ timestamps: true }
 );
@@ -33,14 +34,15 @@ UserSchema.plugin(uniqueValidator, {
 });
 
 UserSchema.methods.setPassword = /*async*/ function(password) {
-	// TODO: use async version
+// 	this.salt = crypto.randomBytes(16).toString('hex');
+//   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000,512,'sha512').toString('hex');
 	this.hash = bcrypt.hashSync(password, saltRounds);
-	//this.hash = /*await*/ bcrypt.hash(password, saltRounds);
 }
 
 UserSchema.methods.checkPassword = function (password) {
+	//   const hash = crypto.pbkdf2Sync(password, this.salt, 10000,512,'sha512').toString('hex');
+	//   return this.hash === hash;
 	return bcrypt.compareSync(password, this.hash);
-	// return /*await*/ bcrypt.compare(password, this.hash);
 }
 
 UserSchema.methods.toJSON = function (includePrivateData) {
@@ -48,6 +50,7 @@ UserSchema.methods.toJSON = function (includePrivateData) {
 		username: this.username,
 		bio: this.bio,
 		image: this.image,
+
 		...includePrivateData && {
 			email: this.email, // phone_number, etc...
 		}

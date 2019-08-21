@@ -4,6 +4,9 @@ const { asyncHandler, jwt } = require('../utils');
 module.exports = {
 
 	createLogin: asyncHandler( async (req, res, next) => {
+		if(!req.body.user) {
+			return res.status(422).json({ errors: {"user": "is missing"} });
+		}
 		const { username, password } = req.body.user;
 		if(!username) { // TODO: check if 400 is better
 			return res.status(422).json({ errors: {"username": "is missing"} });
@@ -15,8 +18,7 @@ module.exports = {
 		if (!user) {
 			return res.status(401).json({ errors: {"username or password": "is invalid"} });
 		}
-		// if (!await user.checkPassword(password)) {
-		if (!user.checkPassword(password)) { // TODO: use async version
+		if (!user.checkPassword(password)) {
 			return res.status(401).json({ errors: {"username or password": "is invalid"} });
 		}
 		const token = jwt.getToken(username);

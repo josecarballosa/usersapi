@@ -37,11 +37,10 @@ module.exports = {
 	}),
 
 	updateUser: asyncHandler( async (req, res, next) => {
-		// req.auth is guaranteed by router configuration
-
 		let user = req.user;
 
-		if (user.equals(req.auth)) {
+		// req.auth is guaranteed by router configuration
+		if (!user.equals(req.auth)) {
 			return res.status(403).json({ errors: {"user": "is wrong"} });
 		}
 
@@ -70,10 +69,9 @@ module.exports = {
 	}),
 
 	deleteUser: asyncHandler( async (req, res, next) => {
-		// req.auth is guaranteed by router configuration
-
 		let user = req.user;
 
+		// req.auth is guaranteed by router configuration
 		if (!user.equals(req.auth))
 			return res.status(403).json({ errors: {"user": "is wrong"} });
 
