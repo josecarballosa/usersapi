@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-// const express_jwt = require('express-jwt');
+const expressJwt = require('express-jwt');
 const { secret, expiresIn } = require('../../config');
 const asyncHandler = require('./async-handler');
 
@@ -7,7 +7,8 @@ const auth = 'auth';
 
 // TODO: throw "express-jwt" errors instead
 
-function express_jwt({ credentialsRequired, secret, requestProperty = auth }) {
+/*
+function expressJwt({ credentialsRequired, secret, requestProperty = auth }) {
 	return async function (req, res, next) {
 		const authorizationHeader = req.headers.authorization;
 		if (!authorizationHeader) {
@@ -30,12 +31,17 @@ function express_jwt({ credentialsRequired, secret, requestProperty = auth }) {
 		}
 	}
 }
+*/
 
 module.exports = {
 	getToken: (username) => jwt.sign({ username }, secret, { expiresIn }),
 
-	optional: asyncHandler( express_jwt({ credentialsRequired: false, secret, requestProperty: auth }) ),
+	optional: asyncHandler(
+		expressJwt({ credentialsRequired: false, secret, requestProperty: auth })
+	),
 
-	required: asyncHandler( express_jwt({ credentialsRequired: true, secret, requestProperty: auth }) ),
+	required: asyncHandler(
+		expressJwt({ credentialsRequired: true, secret, requestProperty: auth })
+	),
 
 };
