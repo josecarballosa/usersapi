@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const { secret, expiresIn } = require('../../config');
+const { secret, expiresIn } = require('../config');
 const asyncHandler = require('./async-handler');
 
 const auth = 'auth';
-
-// TODO: throw "express-jwt" errors instead
 
 /*
 function expressJwt({ credentialsRequired, secret, requestProperty = auth }) {

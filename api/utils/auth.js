@@ -1,6 +1,10 @@
 const User = require('../users/users.model');
 const asyncHandler = require('./async-handler');
 
+// TODO: aggregate express-jwt middleware
+
+// TODO: use OpenID connect and Auth2
+
 module.exports = {
 	load: asyncHandler( async (req, res, next) => {
 		if (req.auth) {
