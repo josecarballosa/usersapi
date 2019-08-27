@@ -13,6 +13,9 @@ const	findUser = asyncHandler( async (req, res, next, username) => {
 });
 
 const	createUser = asyncHandler( async (req, res, next) => {
+	if(!req.body.user) {
+		return res.status(400).json({ errors: {"user": "is missing"} });
+	}
 	const {password, ...userData} = req.body.user;
 	if (!password) {
 		return res.status(400).json({ errors: {"password": "is missing"} });
@@ -30,16 +33,23 @@ const getAllUsers = asyncHandler( async (req, res, next) => {
 });
 
 const getOneUser = asyncHandler( async (req, res, next) => {
+	// req.auth is loaded by jwt middleware (if given)
+	// req.user is loaded by param middleware
 	const includePrivateData = req.auth && req.user.equals(req.auth);
 	res.json({ user: req.user.toJSON(includePrivateData) });
 });
 
 const updateUser = asyncHandler( async (req, res, next) => {
+	// req.user is loaded by param middleware
 	let user = req.user;
 
-	// req.auth is guaranteed by router configuration
+	// req.auth is loaded by jwt middleware (verified)
 	if (!user.equals(req.auth)) {
 		return res.status(403).json({ errors: {"user": "is wrong"} });
+	}
+
+	if(!req.body.user) {
+		return res.status(400).json({ errors: {"user": "is missing"} });
 	}
 
 	const { username, email, bio, image, password } =

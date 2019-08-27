@@ -37,6 +37,7 @@ UserSchema.methods.setPassword = /*async*/ function(password) {
 // 	this.salt = crypto.randomBytes(16).toString('hex');
 //   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000,512,'sha512').toString('hex');
 	this.hash = bcrypt.hashSync(password, saltRounds);
+	// console.log('hash:', this.hash);
 }
 
 UserSchema.methods.checkPassword = function (password) {

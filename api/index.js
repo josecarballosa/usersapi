@@ -16,7 +16,7 @@ const api = express();
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: true }));
 
-if (env !== 'production') {
+if (env === 'development') {
 	api.use(logger('dev'));
 }
 

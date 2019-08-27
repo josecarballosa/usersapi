@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "mocha ./**/*.test.js --exclude ./node_modules/**/*",
+		"test": "mocha ./**/*.test.js --exclude ./node_modules/**/* --exit --timeout 10000",
 		"dev": "nodemon server.js",
 		"start": "node server.js"
 	},
