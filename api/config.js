@@ -1,3 +1,8 @@
+const dotenvError = require('dotenv').config().error;
+if (dotenvError) {
+	throw dotenvError;
+}
+
 const config = {
 	env: process.env.NODE_ENV,
 	port: normalizePort(process.env.PORT || '3000'),

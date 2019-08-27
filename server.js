@@ -28,3 +28,5 @@ function handleError(error) {
       throw error;
   }
 }
+
+module.exports = server; // for testing

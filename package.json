@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon -r dotenv/config server.js",
-		"start": "node -r dotenv/config server.js"
+		"test": "mocha ./**/*.test.js --exclude ./node_modules/**/*",
+		"dev": "nodemon server.js",
+		"start": "node server.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -21,7 +21,10 @@
 		"mongoose-unique-validator": "^2.0.3"
 	},
 	"devDependencies": {
+		"chai": "^4.2.0",
+		"chai-http": "^4.3.0",
 		"dotenv": "^8.0.0",
+		"mocha": "^6.2.0",
 		"morgan": "^1.9.1",
 		"nodemon": "^1.19.1"
 	}
