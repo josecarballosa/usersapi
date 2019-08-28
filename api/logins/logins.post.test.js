@@ -9,12 +9,16 @@ beforeEach(async () => {
 	await User.deleteMany({}); // empty the users collection
 });
 
-describe('POST /users', () => {
+describe('POST /logins', () => {
 
-	describe('when the user is new', () => {
+	describe('when the user exist', () => {
+		beforeEach(async () => {
+			await User.create({ username, email, hash });
+		});
+
 		it('should return a token and the user (public and private fields)', async () => {
 			const res = await chai.request(server)
-				.post(`${baseUrl}/users`)
+				.post(`${baseUrl}/logins`)
 				.send({ user: { username, email, password } })
 			expect(res).to.have.status(200);
 			expect(res.body).to.be.an('object');

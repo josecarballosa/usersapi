@@ -3,7 +3,7 @@ const {
 	password, hash, bio,
 	username, email, token,
 	username2, email2, token2,
-} = require('./users.test.setup');
+} = require('../test.setup');
 
 beforeEach(async () => {
 	await User.deleteMany({}); // empty the users collection
