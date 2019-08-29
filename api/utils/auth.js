@@ -10,11 +10,11 @@ module.exports = {
 		if (req.auth) {
 			const { username } = req.auth;
 			if (!username) {
-				return res.status(404).json({ errors: {"username": "is missing"} });
+				return res.status(401).json({ errors: {"auth username": "is missing"} });
 			}
 			const user = await User.findOne({ username });
 			if (!user) {
-				return res.status(404).json({ errors: {"username": "is unknown"} });
+				return res.status(401).json({ errors: {"auth username": "is unknown"} });
 			}
 			req.auth = user; // expands req.auth to its full User
 		}

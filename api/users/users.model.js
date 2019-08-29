@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
 		username: {
 			type: String,
 			lowercase: true,
-			required: [true, "can't be blank"],
+			required: [true, "is missing"],
 			match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
 			unique: true,
 			index: true,
@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
 		email: {
 			type: String,
 			lowercase: true,
-			required: [true, "can't be blank"],
+			required: [true, "is missing"],
 			match: [/\S+@\S+\.\S+/, 'is invalid'],
 			unique: true,
 			index: true,

@@ -5,14 +5,14 @@ module.exports = {
 
 	createLogin: asyncHandler( async (req, res, next) => {
 		if(!req.body.user) {
-			return res.status(422).json({ errors: {"user": "is missing"} });
+			return res.status(400).json({ errors: {"user": "is missing"} });
 		}
 		const { username, password } = req.body.user;
-		if(!username) { // TODO: check if 400 is better
-			return res.status(422).json({ errors: {"username": "is missing"} });
+		if(!username) {
+			return res.status(400).json({ errors: {"username": "is missing"} });
 		}
-		if (!password) { // TODO: check if 400 is better
-			return res.status(422).json({ errors: {"password": "is missing"} })
+		if (!password) {
+			return res.status(400).json({ errors: {"password": "is missing"} })
 		}
 		let user = await User.findOne({ username });
 		if (!user) {
