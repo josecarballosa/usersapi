@@ -18,7 +18,7 @@ const router = require('./router');
 		console.log('Error: Failed to connect to the database');
 		process.exit(1);
 	}
-})();
+})(); 
 
 const api = express();
 
