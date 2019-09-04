@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
-const { saltRounds } = require('../config');
+const { saltRounds } = require('../../config');
 // const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({

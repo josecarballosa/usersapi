@@ -6,7 +6,7 @@ if (dotenvError) {
 const config = {
 	env: process.env.NODE_ENV,
 	port: normalizePort(process.env.PORT || '3000'),
-	mongoDbUri: process.env.MONGODB_URI,
+	mongoUrl: process.env.MONGO_URL,
 	saltRounds: 10,
 	secret: process.env.JWT_SECRET,
 	expiresIn: process.env.JWT_EXPIRES_IN,

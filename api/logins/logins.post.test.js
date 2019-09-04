@@ -9,7 +9,7 @@ beforeEach(async () => {
 	await User.deleteMany({}); // empty the users collection
 });
 
-describe.only('POST /logins', () => {
+describe('POST /logins', () => {
 
 	describe('when the user exist', () => {
 		beforeEach(async () => {
