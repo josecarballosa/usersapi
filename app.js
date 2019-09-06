@@ -10,7 +10,7 @@ const router = require('./api');
 	try {
 		await mongoose.connect(mongoUrl, {
 			useNewUrlParser: true,
-			useCreateIndex: (env !== 'production'),
+			useCreateIndex: env !== 'production',
 		});
 	} catch (error) {
 		console.log('Error: Failed to connect to the database');
@@ -31,13 +31,18 @@ app.use('/api', router);
 
 // Handle unknown routes
 app.use((req, res, next) => {
-	res.status(404).json({ errors: {"route": "is invalid"} });
+	res.status(404).json({ message: 'invalid route' });
 });
 
 // Handle body-parser errors
 app.use((err, req, res, next) => {
 	if (err.type === 'entity.parse.failed') {
-		return res.status(400).json({ errors: {"body": "cannot be parsed"} });
+		return res.status(400).json({
+			message: 'invalid user data',
+			errors: {
+				body: 'is malformed',
+			},
+		});
 	}
 	next(err);
 });
@@ -45,14 +50,21 @@ app.use((err, req, res, next) => {
 // Handle "express-jwt" errors
 app.use((err, req, res, next) => {
 	if (err.name === 'UnauthorizedError') {
-		return res.status(401).json({ errors: {"auth token": "is invalid"} });
+		return res.status(401).json({
+			message: 'invalid authentication',
+			errors: {
+				token: err.message,
+			},
+		});
 	}
 	next(err);
 });
 
 // Handle unexpected errors
 app.use((err, req, res, next) => {
-	res.status(500).json({ errors: {"something": "went wrong"} });
+	res.status(500).json({
+		message: 'something went wrong',
+	});
 });
 
 module.exports = app;

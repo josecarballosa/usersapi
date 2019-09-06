@@ -32,14 +32,13 @@ function expressJwt({ credentialsRequired, secret, requestProperty = auth }) {
 */
 
 module.exports = {
-	getToken: (username) => jwt.sign({ username }, secret, { expiresIn }),
+	getToken: username => jwt.sign({ username }, secret, { expiresIn }),
 
 	optional: asyncHandler(
-		expressJwt({ credentialsRequired: false, secret, requestProperty: auth })
+		expressJwt({ credentialsRequired: false, secret, requestProperty: auth }),
 	),
 
 	required: asyncHandler(
-		expressJwt({ credentialsRequired: true, secret, requestProperty: auth })
+		expressJwt({ credentialsRequired: true, secret, requestProperty: auth }),
 	),
-
 };

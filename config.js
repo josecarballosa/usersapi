@@ -7,7 +7,7 @@ const config = {
 	env: process.env.NODE_ENV,
 	port: normalizePort(process.env.PORT || '3000'),
 	mongoUrl: process.env.MONGO_URL,
-	saltRounds: 10,
+	saltRounds: process.env.NODE_ENV === 'production' ? 10 : 1,
 	secret: process.env.JWT_SECRET,
 	expiresIn: process.env.JWT_EXPIRES_IN,
 };
