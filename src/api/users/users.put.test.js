@@ -118,7 +118,7 @@ describe('PUT /users/:username', () => {
 				.send('***wong***');
 			expect(res).to.have.status(400);
 			expect(res.body).to.deep.equal({
-				message: 'invalid user data',
+				message: 'invalid data',
 				errors: { body: 'is malformed' },
 			});
 		});

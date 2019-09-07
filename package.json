@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "mocha ./**/*.test.js --exclude ./node_modules/**/* --exit --timeout 10000",
-		"dev": "nodemon server.js",
-		"start": "node server.js"
+		"test": "mocha src/**/*.test.js --exit --timeout 10000",
+		"dev": "nodemon src/server.js",
+		"start": "node src/server.js"
 	},
 	"keywords": [],
 	"author": "",
