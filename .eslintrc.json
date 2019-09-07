@@ -4,6 +4,6 @@
 		"es6": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 8 // async/await
+		"ecmaVersion": 9 // async/await (8) and object spread (9)
 	}
 }

@@ -119,7 +119,7 @@ describe('GET /users/:username', () => {
 			const res = await chai.request(server).get(`${baseUrl}/users/unknown`);
 			expect(res).to.have.status(404);
 			expect(res.body).to.deep.equal({
-				message: 'invalid user data',
+				message: 'invalid user',
 				errors: { username: 'is unknown' },
 			});
 		});

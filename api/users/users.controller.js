@@ -7,12 +7,12 @@ const findUser = asyncHandler(async (req, res, next, username) => {
 	const user = await User.findOne({ username });
 	if (!user) {
 		return res.status(404).json({
-			message: 'invalid user data',
+			message: 'invalid user',
 			errors: { username: 'is unknown' },
 		});
 	}
 	req.user = user;
-	next(); // TODO: Check if I need to call next() here
+	next();
 });
 
 const createUser = asyncHandler(async (req, res, next) => {
@@ -45,7 +45,7 @@ const getOneUser = asyncHandler(async (req, res, next) => {
 	// req.auth is loaded by jwt middleware (if given)
 	// req.user is loaded by param middleware
 	const includePrivateData = req.auth && req.user.equals(req.auth);
-	res.json({ user: req.user.toJSON(includePrivateData) });
+	return res.json({ user: req.user.toJSON(includePrivateData) });
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {

@@ -31,17 +31,17 @@ app.use('/api', router);
 
 // Handle unknown routes
 app.use((req, res, next) => {
-	res.status(404).json({ message: 'invalid route' });
+	res.status(404).json({
+		message: 'invalid route',
+	});
 });
 
 // Handle body-parser errors
 app.use((err, req, res, next) => {
 	if (err.type === 'entity.parse.failed') {
 		return res.status(400).json({
-			message: 'invalid user data',
-			errors: {
-				body: 'is malformed',
-			},
+			message: 'invalid data',
+			errors: { body: 'is malformed' },
 		});
 	}
 	next(err);
@@ -52,9 +52,7 @@ app.use((err, req, res, next) => {
 	if (err.name === 'UnauthorizedError') {
 		return res.status(401).json({
 			message: 'invalid authentication',
-			errors: {
-				token: err.message,
-			},
+			errors: { token: err.message },
 		});
 	}
 	next(err);

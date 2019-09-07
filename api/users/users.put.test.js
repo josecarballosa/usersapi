@@ -84,7 +84,7 @@ describe('PUT /users/:username', () => {
 				.set('Authorization', `Bearer ${token}`);
 			expect(res).to.have.status(404);
 			expect(res.body).to.deep.equal({
-				message: 'invalid user data',
+				message: 'invalid user',
 				errors: { username: 'is unknown' },
 			});
 		});
