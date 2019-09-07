@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const { env, mongoUrl } = require('./config');
 const router = require('./api');
@@ -19,7 +20,7 @@ const router = require('./api');
 })();
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
