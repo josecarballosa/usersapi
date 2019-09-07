@@ -3,7 +3,6 @@
 ## TODO
 
 * Throw Errors instead of returning early
-* Add CORS support
 * Return Problem JSON
 * Add debug logging in development environment
 * Add an OpenAPI specification (Swagger)
