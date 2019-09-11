@@ -1,69 +1,38 @@
 const express = require('express');
-const logger = require('morgan');
-const mongoose = require('mongoose');
 const cors = require('cors');
+const methodOverride = require('method-override');
+const path = require('path');
+const debug = require('./utils/debug');
 
-const { env, mongoUrl } = require('./config');
-const router = require('./api');
+const config = require('./config');
 
-// TODO: Is a good practice to keep the DB connection open?
-(async () => {
-	try {
-		await mongoose.connect(mongoUrl, {
-			useNewUrlParser: true,
-			useCreateIndex: env !== 'production',
-		});
-	} catch (error) {
-		console.log('Error: Failed to connect to the database');
-		process.exit(1);
-	}
-})();
-
+debug.info('creating express app');
 const app = express();
+
+debug.info('loading CORS middleware');
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-if (env === 'development') {
-	app.use(logger('dev'));
+debug.info('loading method override middleware');
+app.use(methodOverride());
+
+debug.info('performing app specific configuration');
+config(app);
+
+debug.info('loading static folder middleware');
+app.use(express.static(path.join(__dirname, 'public')));
+
+debug.info('loading router: /');
+app.use('/', require('./routes'));
+
+debug.info('loading internal error handler middleware');
+app.use(handleInternalErrors);
+
+function handleInternalErrors(err, req, res, next) {
+	debug.error('the internal error handler middleware was called');
+	debug.error('err: %O', err);
+
+	debug.error('returning error response');
+	res.status(500).json({ message: 'something went wrong' });
 }
-
-app.use('/api', router);
-
-// Handle unknown routes
-app.use((req, res, next) => {
-	res.status(404).json({
-		message: 'invalid route',
-	});
-});
-
-// Handle body-parser errors
-app.use((err, req, res, next) => {
-	if (err.type === 'entity.parse.failed') {
-		return res.status(400).json({
-			message: 'invalid data',
-			errors: { body: 'is malformed' },
-		});
-	}
-	next(err);
-});
-
-// Handle "express-jwt" errors
-app.use((err, req, res, next) => {
-	if (err.name === 'UnauthorizedError') {
-		return res.status(401).json({
-			message: 'invalid authentication',
-			errors: { token: err.message },
-		});
-	}
-	next(err);
-});
-
-// Handle unexpected errors
-app.use((err, req, res, next) => {
-	res.status(500).json({
-		message: 'something went wrong',
-	});
-});
 
 module.exports = app;

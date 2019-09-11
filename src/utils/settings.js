@@ -3,7 +3,7 @@ if (dotenvError) {
 	throw dotenvError;
 }
 
-const config = {
+const settings = {
 	env: process.env.NODE_ENV,
 	port: normalizePort(process.env.PORT || '3000'),
 	mongoUrl: process.env.MONGO_URL,
@@ -24,4 +24,4 @@ function normalizePort(val) {
 	return false;
 }
 
-module.exports = config;
+module.exports = settings;
