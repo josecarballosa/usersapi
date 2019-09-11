@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const methodOverride = require('method-override');
-const path = require('path');
 const debug = require('./utils/debug');
 
 const config = require('./config');
@@ -19,13 +18,19 @@ debug.info('performing app specific configuration');
 config(app);
 
 debug.info('loading static folder middleware');
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 debug.info('loading router: /');
-app.use('/', require('./routes'));
+app.use('/api', require('./routes'));
+
+app.all('*', handleNotFound);
 
 debug.info('loading internal error handler middleware');
 app.use(handleInternalErrors);
+
+function handleNotFound(req, res, next) {
+	res.status(404).send();
+}
 
 function handleInternalErrors(err, req, res, next) {
 	debug.error('the internal error handler middleware was called');
