@@ -12,7 +12,7 @@ const {
 	username2,
 	email2,
 	token2,
-} = require('../test.setup');
+} = require('./test.setup');
 
 beforeEach(async () => {
 	await User.deleteMany({}); // empty the users collection

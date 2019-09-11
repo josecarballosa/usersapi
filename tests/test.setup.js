@@ -3,14 +3,14 @@ process.env.NODE_ENV = 'test'; // force environment to be "test"
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const server = require('../server');
+const server = require('../src/server');
 
 expect = chai.expect;
 chai.use(chaiHttp);
 
 const baseUrl = '';
 
-const User = require('./users/users.model');
+const User = require('../src/routes/users/users.model');
 
 const password = 'Password1';
 const hash = '$2b$10$C/WokEN/X0UXPkBgfKped.mmr7GJYbo7BrTdUyaEp7jT1kODma3Pe';

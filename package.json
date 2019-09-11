@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "mocha src/**/*.test.js --exit --timeout 10000",
+		"test": "mocha tests/**/*.test.js --exit --timeout 10000",
 		"dev": "nodemon src/server",
 		"debug": "set DEBUG=userapi:* && nodemon src/server",
 		"start": "node src/server"
