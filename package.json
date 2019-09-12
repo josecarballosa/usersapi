@@ -4,10 +4,9 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "mocha tests/**/*.test.js --exit --timeout 10000",
-		"dev": "nodemon src/server",
-		"debug": "set DEBUG=userapi:* && nodemon src/server",
-		"start": "node src/server"
+		"start": "cross-env LOG_LEVEL=warn node src/server",
+		"test": "cross-env LOG_LEVEL=none mocha tests/**/*.test.js --exit --timeout 10000",
+		"dev": "cross-env LOG_LEVEL=info nodemon src/server"
 	},
 	"keywords": [],
 	"author": "",
@@ -15,17 +14,18 @@
 	"dependencies": {
 		"bcrypt": "^3.0.6",
 		"cors": "^2.8.5",
-		"debug": "^4.1.1",
 		"express": "^4.17.1",
 		"express-jwt": "^5.3.1",
 		"jsonwebtoken": "^8.5.1",
 		"method-override": "^3.0.0",
 		"mongoose": "^5.6.7",
-		"mongoose-unique-validator": "^2.0.3"
+		"mongoose-unique-validator": "^2.0.3",
+		"winston": "^3.2.1"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
 		"chai-http": "^4.3.0",
+		"cross-env": "^5.2.1",
 		"dotenv": "^8.0.0",
 		"eslint": "^6.3.0",
 		"eslint-config-prettier": "^6.2.0",

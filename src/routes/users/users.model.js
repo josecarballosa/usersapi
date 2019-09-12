@@ -3,9 +3,9 @@ const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const { saltRounds } = require('../../utils/settings');
 // const crypto = require('crypto');
-const debug = require('../../utils/debug');
+const logger = require('../../config/winston');
 
-debug.info('creating the database user schema');
+logger.info('creating the database schema for users');
 const UserSchema = new mongoose.Schema(
 	{
 		username: {
@@ -32,30 +32,23 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-debug.info('attaching the unique validator to the database user schema');
+logger.info('attaching the unique validator to the database  schema for users');
 UserSchema.plugin(uniqueValidator, {
 	message: 'is already taken',
 });
 
 UserSchema.methods.setPassword = /*async*/ function(password) {
-	debug.info('the UserSchema.setPassword function was called');
-
-	// 	this.salt = crypto.randomBytes(16).toString('hex');
-	//   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000,512,'sha512').toString('hex');
+	logger.info('setting the user password (hash)');
 	this.hash = bcrypt.hashSync(password, saltRounds);
-	// console.log('hash:', this.hash);
 };
 
 UserSchema.methods.checkPassword = function(password) {
-	debug.info('the UserSchema.checkPassword function was called');
-
-	//   const hash = crypto.pbkdf2Sync(password, this.salt, 10000,512,'sha512').toString('hex');
-	//   return this.hash === hash;
+	logger.info('checking the user password (hash)');
 	return bcrypt.compareSync(password, this.hash);
 };
 
 UserSchema.methods.toJSON = function(includePrivateData) {
-	debug.info('the UserSchema.toJSON function was called');
+	logger.info('converting a user to a simple JSON object');
 
 	return {
 		username: this.username,

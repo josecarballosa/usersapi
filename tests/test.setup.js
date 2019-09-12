@@ -8,7 +8,7 @@ const server = require('../src/server');
 expect = chai.expect;
 chai.use(chaiHttp);
 
-const baseUrl = '';
+const baseUrl = '/api';
 
 const User = require('../src/routes/users/users.model');
 

@@ -1,24 +1,23 @@
 const router = require('express').Router();
-const debug = require('../utils/debug');
+const logger = require('../config/winston');
 
-debug.info('loading router: /logins');
+logger.info('loading router: /logins');
 router.use('/logins', require('./logins'));
 
-debug.info('loading router: /users');
+logger.info('loading router: /users');
 router.use('/users', require('./users'));
 
-debug.info('loading unknown route handler');
+logger.info('loading a handler for unknown routes');
 router.use(unknownRoute);
 
-debug.info('loading validation errors handler');
+logger.info('loading a handler for validation errors');
 router.use(handleValidationErrors);
 
-debug.info('loading authentication errors handler');
+logger.info('loading a handler for authentication errors');
 router.use(handleAuthenticationErrors);
 
 function unknownRoute(req, res, next) {
-	debug.error('the unknown route handler was called');
-	debug.error('req: %O', {
+	logger.error('handling unknown route request: %O', {
 		method: req.method,
 		url: req.url,
 	});
@@ -31,8 +30,7 @@ function unknownRoute(req, res, next) {
 // Reformat mongoose validation errors as key-value pairs
 function handleValidationErrors(err, req, res, next) {
 	if (err.name === 'ValidationError') {
-		debug.error('the validation errors handler was called');
-		debug.error('err: %O', err);
+		logger.error('handling validation errors: %O', err);
 
 		return res.status(400).json({
 			message: 'invalid user data',
@@ -48,8 +46,7 @@ function handleValidationErrors(err, req, res, next) {
 // Wrap "express-jwt" error messages
 function handleAuthenticationErrors(err, req, res, next) {
 	if (err.name === 'UnauthorizedError') {
-		debug.error('the authorization errors handler was called');
-		debug.error('err: %O', err);
+		logger.error('handling authentication error: %O', err);
 
 		return res.status(401).json({
 			message: 'invalid authentication',

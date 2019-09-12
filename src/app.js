@@ -1,42 +1,46 @@
 const express = require('express');
 const cors = require('cors');
 const methodOverride = require('method-override');
-const debug = require('./utils/debug');
+const logger = require('./config/winston');
 
 const config = require('./config');
 
-debug.info('creating express app');
+logger.info('creating the express app');
 const app = express();
 
-debug.info('loading CORS middleware');
+logger.info('loading middleware to support CORS');
 app.use(cors());
 
-debug.info('loading method override middleware');
+logger.info('loading middleware to support method override');
 app.use(methodOverride());
 
-debug.info('performing app specific configuration');
+logger.info('performing app specific configuration');
 config(app);
 
-debug.info('loading static folder middleware');
+logger.info('loading a handler for serving static pages');
 app.use(express.static('public'));
 
-debug.info('loading router: /');
+logger.info('loading a router to serve api routes');
 app.use('/api', require('./routes'));
 
+logger.info('loading a handler for unknown page requests');
 app.all('*', handleNotFound);
 
-debug.info('loading internal error handler middleware');
+logger.info('loading a handler for internal errors');
 app.use(handleInternalErrors);
 
 function handleNotFound(req, res, next) {
+	logger.error('handling unknown page error: %O', {
+		method: req.method,
+		url: req.url,
+	});
+
 	res.status(404).send();
 }
 
 function handleInternalErrors(err, req, res, next) {
-	debug.error('the internal error handler middleware was called');
-	debug.error('err: %O', err);
+	logger.error('handling internal error: %O', err);
 
-	debug.error('returning error response');
 	res.status(500).json({ message: 'something went wrong' });
 }
 

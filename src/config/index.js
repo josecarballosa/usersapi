@@ -2,17 +2,17 @@ const db = require('./db');
 const bodyParser = require('./body-parser');
 const morgan = require('./morgan');
 const env = require('../utils/settings').env;
-const debug = require('../utils/debug');
+const logger = require('../config/winston');
 
 function config(app) {
-	debug.info('configuring the database');
+	logger.info('configuring the database');
 	db();
 
-	debug.info('configuring body-parser middleware');
+	logger.info('configuring body-parser middleware');
 	bodyParser(app);
 
 	if (env === 'development') {
-		debug.info('configuring request logger middleware on dev');
+		logger.info('configuring a request logger for development');
 		morgan(app);
 	}
 }

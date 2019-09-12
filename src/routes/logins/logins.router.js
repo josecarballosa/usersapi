@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const controller = require('./logins.controller');
-const debug = require('../../utils/debug');
+const logger = require('../../config/winston');
 
-debug.info('loading /logins route handlers');
+logger.info('loading route handler: POST /logins');
 router.post('/', controller.createLogin);
 
 module.exports = router;

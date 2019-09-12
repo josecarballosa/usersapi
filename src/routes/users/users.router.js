@@ -2,28 +2,28 @@ const router = require('express').Router();
 
 const controller = require('./users.controller');
 const { jwt, auth } = require('../../utils');
-const debug = require('../../utils/debug');
+const logger = require('../../config/winston');
 
-debug.info('loading /logins/:username param handler');
+logger.info('loading route param handler: /users/:username ');
 router.param('username', controller.findUser);
 
 let route = router.route('/');
 
-debug.info('loading POST /logins/:username route handler');
+logger.info('loading route handler: POST /users');
 route.post(controller.createUser);
 
-debug.info('loading GET /logins/:username route handler');
+logger.info('loading route handler: GET /users');
 route.get(controller.getAllUsers);
 
 route = router.route('/:username');
 
-debug.info('loading GET /logins/:username route handler');
+logger.info('loading route handler: GET /users/:username');
 route.get(jwt.optional, auth.load, controller.getOneUser);
 
-debug.info('loading PUT /logins/:username route handler');
+logger.info('loading route handler: PUT /users/:username');
 route.put(jwt.required, auth.load, controller.updateUser);
 
-debug.info('loading DELETE /logins/:username route handler');
+logger.info('loading route handler: DELETE /users/:username');
 route.delete(jwt.required, auth.load, controller.deleteUser);
 
 module.exports = router;

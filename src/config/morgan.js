@@ -1,9 +1,22 @@
 const morgan = require('morgan');
-const debug = require('../utils/debug');
+const logger = require('../config/winston');
 
 function config(app) {
-	debug.info('loading request logger middleware');
-	app.use(morgan('dev', { stream: { write: msg => debug.info(msg) } }));
+	logger.info('loading middleware to log http requests');
+
+	app.use(
+		morgan('dev', {
+			stream: { write: msg => logger.info(msg) },
+			skip: (req, res) => res.statusCode >= 400,
+		}),
+	);
+
+	app.use(
+		morgan('dev', {
+			stream: { write: msg => logger.error(msg) },
+			skip: (req, res) => res.statusCode < 400,
+		}),
+	);
 }
 
 module.exports = config;

@@ -1,22 +1,21 @@
 const express = require('express');
-const debug = require('../utils/debug');
+const logger = require('../config/winston');
 
 function config(app) {
-	debug.info('loading json body parser middleware');
+	logger.info('loading middleware to parse json request bodies');
 	app.use(express.json());
 
-	debug.info('loading url-encoded body parser middleware');
+	logger.info('loading middleware to parse url-encoded request bodies');
 	app.use(express.urlencoded({ extended: true }));
 
-	debug.info('setting body parser error handler');
+	logger.info('loading a handler for body parser errors');
 	app.use(handleBodyParserErrors);
 }
 
 function handleBodyParserErrors(err, req, res, next) {
 	if (err.type === 'entity.parse.failed') {
-		debug.error('body parser error handler was called');
+		logger.error('handling body parser error: %O', err);
 
-		debug.error('returning error response');
 		return res.status(400).json({
 			message: 'invalid data',
 			errors: { body: 'is malformed' },
