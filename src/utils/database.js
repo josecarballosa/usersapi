@@ -1,37 +1,37 @@
 const mongoose = require('mongoose');
-const { env, mongoUrl } = require('../utils/settings');
-const logger = require('./winston');
+const { env, databaseUrl } = require('./settings');
+const logger = require('./logger');
 
-logger.info('loading a handler for database connection');
-mongoose.connection.on('connected', () => {
-	logger.info('MongoDB connected');
-});
+function connect(done) {
+	logger.info('loading a handler for database connection');
+	mongoose.connection.on('connected', () => {
+		logger.info('database connected');
+	});
 
-logger.info('loading a handler for database disconnection');
-mongoose.connection.on('disconnected', () => {
-	logger.warn('MongoDB disconnected');
-});
+	logger.info('loading a handler for database disconnection');
+	mongoose.connection.on('disconnected', () => {
+		logger.warn('database disconnected');
+	});
 
-logger.info('loading a handler for database reconnection');
-mongoose.connection.on('reconnected', () => {
-	logger.warn('MongoDB reconnected');
-});
+	logger.info('loading a handler for database reconnection');
+	mongoose.connection.on('reconnected', () => {
+		logger.warn('database reconnected');
+	});
 
-logger.info('loading a handler for database closing');
-mongoose.connection.on('close', () => {
-	logger.info('MongoDB closed');
-});
+	logger.info('loading a handler for database closing');
+	mongoose.connection.on('close', () => {
+		logger.info('database closed');
+	});
 
-logger.info('loading a handler for database connection errors');
-mongoose.connection.on('error', error => {
-	logger.error('MongoDB error: ' + error);
-});
+	logger.info('loading a handler for database connection errors');
+	mongoose.connection.on('error', error => {
+		logger.error('database error: ' + error);
+	});
 
-function bootstrap(done) {
 	(async () => {
 		try {
 			logger.info('opening the database connection');
-			await mongoose.connect(mongoUrl, {
+			await mongoose.connect(databaseUrl, {
 				useNewUrlParser: true,
 				useCreateIndex: env !== 'production',
 				autoReconnect: true,
@@ -59,4 +59,4 @@ async function handleDBConnectionError() {
 	process.exit();
 }
 
-module.exports = bootstrap;
+module.exports = { connect };

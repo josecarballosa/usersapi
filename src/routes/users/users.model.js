@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const { saltRounds } = require('../../utils/settings');
 // const crypto = require('crypto');
-const logger = require('../../bootstrap/winston');
+const logger = require('../../utils/logger');
 
 logger.info('creating the database schema for users');
 const UserSchema = new mongoose.Schema(
@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-logger.info('attaching the unique validator to the database  schema for users');
+logger.info('attaching the unique validator to the database schema for users');
 UserSchema.plugin(uniqueValidator, {
 	message: 'is already taken',
 });

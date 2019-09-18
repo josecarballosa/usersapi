@@ -1,13 +1,14 @@
 const router = require('express').Router();
-const logger = require('../bootstrap/winston');
+
+const logger = require('../utils/logger');
 const logins = require('./logins');
 const users = require('./users');
 
-logger.info('loading router: /logins');
+logger.info('loading child router: /logins');
 // router.use('/logins', require('./logins'));
 router.use('/logins', logins);
 
-logger.info('loading router: /users');
+logger.info('loading child router: /users');
 // router.use('/users', require('./users'));
 router.use('/users', users);
 

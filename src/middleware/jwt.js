@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const { secret, expiresIn } = require('./settings');
+const { secret, expiresIn } = require('../utils/settings');
 const wrap = require('./wrap');
 
 const auth = 'auth';
