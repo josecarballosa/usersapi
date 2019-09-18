@@ -1,13 +1,10 @@
-const db = require('./db');
 const bodyParser = require('./body-parser');
+const { env } = require('../utils/settings');
+const logger = require('./winston');
 const morgan = require('./morgan');
-const env = require('../utils/settings').env;
-const logger = require('../config/winston');
+// const mongoDB = require('./mongoDB');
 
-function config(app) {
-	logger.info('configuring the database');
-	db();
-
+function bootstrap(app) {
 	logger.info('configuring body-parser middleware');
 	bodyParser(app);
 
@@ -15,6 +12,9 @@ function config(app) {
 		logger.info('configuring a request logger for development');
 		morgan(app);
 	}
+
+	// logger.info('configuring the database');
+	// mongoDB(app);
 }
 
-module.exports = config;
+module.exports = bootstrap;

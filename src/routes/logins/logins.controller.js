@@ -1,6 +1,6 @@
 const User = require('../users/users.model');
 const { wrap, jwt } = require('../../utils');
-const logger = require('../../config/winston');
+const logger = require('../../bootstrap/winston');
 
 const createLogin = wrap(async (req, res, next) => {
 	logger.info('logging in');

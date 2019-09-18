@@ -1,6 +1,6 @@
 const User = require('./users.model');
 const { wrap, jwt } = require('../../utils');
-const logger = require('../../config/winston');
+const logger = require('../../bootstrap/winston');
 
 // TODO: Try throwing errors instead of calling res.status().json()
 

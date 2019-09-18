@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const controller = require('./users.controller');
 const { jwt, auth } = require('../../utils');
-const logger = require('../../config/winston');
+const logger = require('../../bootstrap/winston');
 
 logger.info('loading route param handler: /users/:username ');
 router.param('username', controller.findUser);

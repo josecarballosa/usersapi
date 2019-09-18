@@ -1,11 +1,15 @@
 const router = require('express').Router();
-const logger = require('../config/winston');
+const logger = require('../bootstrap/winston');
+const logins = require('./logins');
+const users = require('./users');
 
 logger.info('loading router: /logins');
-router.use('/logins', require('./logins'));
+// router.use('/logins', require('./logins'));
+router.use('/logins', logins);
 
 logger.info('loading router: /users');
-router.use('/users', require('./users'));
+// router.use('/users', require('./users'));
+router.use('/users', users);
 
 logger.info('loading a handler for unknown routes');
 router.use(unknownRoute);

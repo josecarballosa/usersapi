@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const { saltRounds } = require('../../utils/settings');
 // const crypto = require('crypto');
-const logger = require('../../config/winston');
+const logger = require('../../bootstrap/winston');
 
 logger.info('creating the database schema for users');
 const UserSchema = new mongoose.Schema(

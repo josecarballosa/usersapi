@@ -1,7 +1,7 @@
 const morgan = require('morgan');
-const logger = require('../config/winston');
+const logger = require('./winston');
 
-function config(app) {
+function bootstrap(app) {
 	logger.info('loading middleware to log http requests');
 
 	app.use(
@@ -19,4 +19,4 @@ function config(app) {
 	);
 }
 
-module.exports = config;
+module.exports = bootstrap;

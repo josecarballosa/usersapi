@@ -1,7 +1,7 @@
 const express = require('express');
-const logger = require('../config/winston');
+const logger = require('./winston');
 
-function config(app) {
+function bootstrap(app) {
 	logger.info('loading middleware to parse json request bodies');
 	app.use(express.json());
 
@@ -24,4 +24,4 @@ function handleBodyParserErrors(err, req, res, next) {
 	next(err);
 }
 
-module.exports = config;
+module.exports = bootstrap;

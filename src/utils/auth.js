@@ -1,6 +1,6 @@
 const User = require('../routes/users/users.model');
 const wrap = require('./wrap');
-const logger = require('../config/winston');
+const logger = require('../bootstrap/winston');
 
 const load = wrap(async (req, res, next) => {
 	if (req.auth) {
